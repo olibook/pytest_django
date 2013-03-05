@@ -108,9 +108,10 @@ def _django_runner(request):
         we need to follow this model.
     """
     if django_settings_is_configured():
-        from django.test.simple import DjangoTestSuiteRunner
 
-        runner = DjangoTestSuiteRunner(interactive=False)
+        from django.test.utils import get_runner
+        from django.conf import settings
+        runner = get_runner(settings)()
         runner.setup_test_environment()
         request.addfinalizer(runner.teardown_test_environment)
         return runner
